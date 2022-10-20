@@ -1,0 +1,43 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+  <script language="javascript" type="text/javascript" src="random.js"></script>
+  <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+
+  <!-- This line removes any default padding and style. 
+       You might only need one of these values set. -->
+  <style> 
+    body {padding: 0; margin: 0; margin-left: 10;}
+    div { padding: 0; margin: 0; margin-top: 10;}
+    input { margin-top: 10; }
+  </style>
+</head>
+
+<body>
+  <!-- block selector-->
+  <div id="blockSelector">
+    <label>Block:</label>
+    <select id="blockSelect">
+      <option value="-1">Negative block</option>
+      <option value="0">Empty block</option>
+      <option value="1">Trial block</option>
+      <option value="2">Door block</option>
+      <option value="3">Destroyable block</option>
+    </select>
+    <br>
+    <label>Rows:</label>
+    <input type="number" id="rows" value="5" min="1" max="10">
+    <br>
+    <label>Columns:</label>
+    <input type="number" id="cols" value="5" min="1" max="10">
+  </div>
+  <div id="canvasForHTML"></div>
+  <div>
+    <button id="saveButton">Save</button>
+    <button id="eraseButton">Erase</button>
+  </div>
+</body>
+</html>
