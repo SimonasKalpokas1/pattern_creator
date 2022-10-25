@@ -21,7 +21,7 @@
   <div id="blockSelector">
     <label>Block:</label>
     <select id="blockSelect">
-      <option value="-1">Negative block</option>
+      <option value="100">Negative block</option>
       <option value="0">Empty block</option>
       <option value="1">Trial block</option>
       <option value="2">Door block</option>
@@ -33,6 +33,9 @@
     <br>
     <label>Columns:</label>
     <input type="number" id="cols" value="5" min="1" max="10">
+    <br>
+    <label>Block can override other patterns</label>
+    <input type="checkbox" id="override">
   </div>
   <div id="canvasForHTML"></div>
   <div>

@@ -7,12 +7,14 @@ const blockSize = 50;
 
 let blockValueToColor;
 
-let currentBlock = "0";
+let currentBlock = 0;
 
 let width = blockSize*cols;
 let height = blockSize*rows;
 
 let blockSelect;
+
+let override = false;
 
 function setup() {
     let canvas = createCanvas(width,height);
@@ -25,6 +27,11 @@ function setup() {
 
     blockSelect = document.getElementById('blockSelect');
 
+    document.getElementById('override').addEventListener('change', function() {
+        override = this.checked;
+        currentBlock *= -1;
+    });
+
     document.getElementById('eraseButton').addEventListener('click', function() {
         grid = make2DArray(cols,rows);
     });
@@ -36,7 +43,7 @@ function setup() {
       }
       else {
         for (let i = rows; i < new_rows; i++) {
-          grid.push(new Array(cols).fill("0"));
+          grid.push(new Array(cols).fill(0));
         }
       }
       rows = new_rows;
@@ -55,7 +62,7 @@ function setup() {
       else {
         for (let i = 0; i < rows; i++) {
           for (let j = cols; j < new_cols; j++) {
-            grid[i].push("0");
+            grid[i].push(0);
           }
         }
       }
@@ -91,11 +98,11 @@ function setup() {
     });
 
     blockValueToColor = {
-      "-1": 150,
-      "0": 255,
-      "1": color(209, 23, 178),
-      "2": color(200, 209, 23),
-      "3": color(0, 255, 0),
+      "100": 150, // negative block
+      "0": 255,   // empty block
+      "1": color(209, 23, 178), // trial block
+      "2": color(200, 209, 23), // door block
+      "3": color(0, 255, 0), // destroyable block
     }
 }
 
@@ -103,20 +110,25 @@ function draw() {
   // draw grid
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      fill(blockValueToColor[grid[j][i]]);
+      fill(blockValueToColor[abs(grid[j][i])]);
       rect(i * blockSize, j * blockSize, blockSize, blockSize);
+      if (grid[j][i] < 0) {
+       // draw crisscrossing lines on the block
+        line(i * blockSize, j * blockSize, (i+1) * blockSize, (j+1) * blockSize);
+        line((i+1) * blockSize, j * blockSize, i * blockSize, (j+1) * blockSize);
+      }
     }
   }
 }
 
 function mousePressed() {
-  if (mouseX >= 0 && mouseX < blockSize*rows && mouseY >= 0 && mouseY < blockSize*cols) {
+  if (mouseX >= 0 && mouseX < blockSize*cols && mouseY >= 0 && mouseY < blockSize*rows) {
     let x = floor(mouseX / blockSize);
     let y = floor(mouseY / blockSize);
 
-    let value = blockSelect.value;
+    let value = parseInt(blockSelect.value) * (override ? -1 : 1);
     if (grid[y][x] == value) {
-        currentBlock = "0";
+        currentBlock = 0;
     }
     else {
         currentBlock = value;
@@ -136,7 +148,7 @@ function mouseDragged() {
 function make2DArray(cols, rows) {
     let arr = new Array(rows);
     for (let i = 0; i < rows; i++) {
-        arr[i] = new Array(cols).fill("0");
+        arr[i] = new Array(cols).fill(0);
     }
     return arr;
 }
